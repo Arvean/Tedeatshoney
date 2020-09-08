@@ -11,31 +11,23 @@ import {
   NativeModules, // for getting an instance of the BLE manager module
   Button,
   ToastAndroid, // for showing notification if there's a new attendee
-  FlatList, // for creating lists
   Alert,
 } from 'react-native';
-import List from './List';
+import {Picker} from '@react-native-community/picker';
 
-export default class App extends Component {
+export default class List extends Component {
   constructor() {
-    super();
-    this.state = {};
+    super(App);
+    this.state = {
+      Devices: null,
+    };
+    this.Devices = [];
   }
-
-  hide() {
-    setState({});
-  }
-
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <Text>Talk To Ted</Text>
-        <Button
-          title="Find Devices"
-          onPress={() => List.js}
-          onPress={() => this.hide()}
-        />
-      </SafeAreaView>
+      <Picker
+        selectedValue={this.state.Devices}
+        style={{height: 50, width: 100}}></Picker>
     );
   }
 }
