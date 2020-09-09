@@ -17,17 +17,20 @@ import {Picker} from '@react-native-community/picker';
 
 export default class List extends Component {
   constructor() {
-    super(App);
+    super();
     this.state = {
-      Devices: null,
+      deviceList: {},
     };
-    this.Devices = [];
   }
+
   render() {
     return (
       <Picker
-        selectedValue={this.state.Devices}
-        style={{height: 50, width: 100}}></Picker>
+        selectedValue={this.state.DeviceList}
+        style={{height: 50, width: 100}}>
+        <Picker.item label="Ted" value="Honey" />
+        <Picker.item label="Jerry" value="Cow" />
+      </Picker>
     );
   }
 }
