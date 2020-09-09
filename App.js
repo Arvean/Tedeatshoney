@@ -19,22 +19,22 @@ import List from './List';
 export default class App extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {buttonHidden: false};
   }
 
-  hide() {
-    setState({});
-  }
+  hide = () => {
+    this.setState({buttonHidden: true});
+  };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <Text>Talk To Ted</Text>
-        <Button
-          title="Find Devices"
-          onPress={() => List.js}
-          onPress={() => this.hide()}
-        />
+        {this.state.buttonHidden ? (
+          <List />
+        ) : (
+          <Button title="Find Devices" onPress={() => this.hide()} />
+        )}
       </SafeAreaView>
     );
   }
