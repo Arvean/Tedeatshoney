@@ -15,6 +15,9 @@ import {
   Alert,
 } from 'react-native';
 import List from './List';
+import BleManager from 'react-native-ble-manager'; // for talking to BLE peripherals
+const BleManagerModule = NativeModules.BleManager;
+const bleManagerEmitter = new NativeEventEmitter(BleManagerModule); // create an event emitter for the BLE Manager module
 
 export default class App extends Component {
   constructor() {
@@ -24,6 +27,12 @@ export default class App extends Component {
 
   hide = () => {
     this.setState({buttonHidden: true});
+  };
+
+  InitializeBLE = () => {
+    BleManager.start().then(() => {
+      console.log('Initialized');
+    });
   };
 
   render() {
