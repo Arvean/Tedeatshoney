@@ -29,12 +29,6 @@ export default class App extends Component {
     this.setState({buttonHidden: true});
   };
 
-  InitializeBLE = () => {
-    BleManager.start().then(() => {
-      console.log('Initialized');
-    });
-  };
-
   render() {
     const styles = StyleSheet.create({
       container: {
@@ -50,7 +44,7 @@ export default class App extends Component {
         <Text>Talk To Ted {'\n'}</Text>
 
         {this.state.buttonHidden ? (
-          <List />
+          <List bleManagerEmitter={bleManagerEmitter} />
         ) : (
           <Button title="Find Devices" onPress={() => this.hide()} />
         )}

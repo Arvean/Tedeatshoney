@@ -17,22 +17,48 @@ import {Picker} from '@react-native-community/picker';
 import BleManager from 'react-native-ble-manager'; // for talking to BLE peripherals
 
 export default class List extends Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
-      deviceList: {'3423jsdf': 'Bob', fdf: 'Joe'},
+      deviceList: {},
     };
+    this.listener = props.bleManagerEmitter.addListener(
+      'BleManagerDiscoverPeripheral',
+      this.handleDevice,
+    );
   }
+
+  async componentDidMount() {
+    await BleManager.start();
+    this.scan();
+  }
+
+  async componentWillUnmount() {
+    await BleManager.stopScan();
+    this.listener.remove();
+  }
+
+  handleDevice = (device) => {
+    // Copying deviceList so I can change it without it breaking. State problem.
+    let copiedDeviceList = JSON.parse(JSON.stringify(this.state.deviceList));
+    copiedDeviceList[device.id] = device.name;
+    this.setState({deviceList: copiedDeviceList});
+  };
+
+  scan = () => {
+    BleManager.scan([], 5);
+    console.log('Scanninig');
+  };
 
   render() {
     const listItems = Object.keys(this.state.deviceList).map((uuid) => (
       <Picker.Item
         key={uuid}
-        label={this.state.deviceList[uuid]}
+        label={this.state.deviceList[uuid] || uuid}
         value={uuid}
       />
     ));
-    return <Picker style={{height: 50, width: 100}}>{listItems}</Picker>;
+    return <Picker style={{height: 50, width: '100%'}}>{listItems}</Picker>;
   }
 }
 // prop inside > children between
