@@ -54,11 +54,20 @@ export default class List extends Component {
     const listItems = Object.keys(this.state.deviceList).map((uuid) => (
       <Picker.Item
         key={uuid}
-        label={this.state.deviceList[uuid] || uuid}
+        label={this.state.deviceList[uuid] || uuid} //Why say OR here?
         value={uuid}
       />
     ));
-    return <Picker style={{height: 50, width: '100%'}}>{listItems}</Picker>;
+    return (
+      <Picker
+        style={{height: 50, width: '100%'}}
+        selectedValue={this.state.uuid}
+        onValueChange={
+          (itemValue) => this.setState({uuid: itemValue}) //Do I have to stringify?
+        }>
+        {listItems}
+      </Picker>
+    );
   }
 }
 // prop inside > children between
