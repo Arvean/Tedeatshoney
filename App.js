@@ -13,7 +13,10 @@ import {
   ToastAndroid, // for showing notification if there's a new attendee
   FlatList, // for creating lists
   Alert,
+  TouchableOpacity,
 } from 'react-native';
+import WelcomeScreen from './app/Screen/WelcomeScreen'; //Doesn't show up
+import MainScreen from './MainScreen';
 import List from './List';
 import BleManager from 'react-native-ble-manager'; // for talking to BLE peripherals
 const BleManagerModule = NativeModules.BleManager;
@@ -25,29 +28,26 @@ export default class App extends Component {
     this.state = {buttonHidden: false};
   }
 
-  hide = () => {
+  hide = (props) => {
     this.setState({buttonHidden: true});
   };
 
   render() {
     const styles = StyleSheet.create({
       container: {
+        alignItems: 'center',
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
         justifyContent: 'center',
       },
     });
 
     return (
       <SafeAreaView style={styles.container}>
-        <Text>Talk To Ted {'\n'}</Text>
-
-        {this.state.buttonHidden ? (
-          <List bleManagerEmitter={bleManagerEmitter} />
-        ) : (
-          <Button title="Find Devices" onPress={() => this.hide()} />
-        )}
+        {this.state.buttonHidden} ?
+        <WelcomeScreen />
+        :
+        <MainScreen />
       </SafeAreaView>
     );
   }
